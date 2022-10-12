@@ -1,0 +1,41 @@
+{
+    "left_side": [
+        {
+            "first": "LEFT_SHOULDER",
+            "mid": "LEFT_ELBOW",
+            "end": "LEFT_WRIST"
+        },
+        {
+            "first": "LEFT_ELBOW",
+            "mid": "LEFT_SHOULDER",
+            "end": "LEFT_HIP"
+        },
+        {
+            "first": "LEFT_ELBOW",
+            "mid": "LEFT_SHOULDER",
+            "end": "RIGHT_SHOULDER"
+        },
+        {
+            "first": "LEFT_WRIST",
+            "mid": "LEFT_SHOULDER",
+            "end": "RIGHT_SHOULDER"
+        },
+        {
+            "first": "LEFT_WRIST",
+            "mid": "LEFT_SHOULDER",
+            "end": "LEFT_HIP"
+        },
+        {
+            "first": "LEFT_WRIST",
+            "mid": "LEFT_SHOULDER",
+            "end": "NOSE"
+        },
+        {
+            "first": "LEFT_SHOULDER",
+            "mid": "LEFT_EYE",
+            "end": "RIGHT_EYE"
+        }
+    ],
+    "right_side": [],
+    "symmetrical": []
+}

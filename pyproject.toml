@@ -20,7 +20,7 @@ tslearn = "^0.5.2"
 tsmoothie = "^1.0.4"
 h5py = "^3.7.0"
 ipykernel = "^6.16.0"
-pretty-errors = "^1.2.25"
+nbformat = "^5.7.0"
 
 
 [tool.poetry.group.dev.dependencies]
