@@ -1,4 +1,7 @@
 """Script for the coordinate time series"""
+import sys
+
+sys.path.append("src")
 
 from typing import Iterable, Literal, Optional, Tuple
 
@@ -9,10 +12,9 @@ import seaborn as sns
 from matplotlib import pyplot as plt
 from matplotlib.axes import Axes
 from mediapipe.framework.formats.landmark_pb2 import NormalizedLandmarkList
+from resources.smoothers import SMOOTHERS
+from utils.miscellanous import merge_dict
 from tslearn.preprocessing import TimeSeriesScalerMeanVariance
-
-from src.resources.smoothers import SMOOTHERS
-from src.utils.miscellanous import merge_dict
 
 
 class CoordinateSeries:

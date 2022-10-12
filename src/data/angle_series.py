@@ -1,4 +1,7 @@
 """Script for the angle time series"""
+import sys
+
+sys.path.append("src")
 
 from collections import defaultdict
 from typing import Iterable, Literal, Optional, Tuple
@@ -7,13 +10,12 @@ import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
 from matplotlib.axes import Axes
+from resources.joints import AngleJoints
+from resources.smoothers import SMOOTHERS
 from tslearn.preprocessing import TimeSeriesScalerMeanVariance
+from utils.trigonometry import calculate_angle
 
-from src.resources.joints import AngleJoints
-from src.resources.smoothers import SMOOTHERS
-from src.utils.trigonometry import calculate_angle
-
-from .coordinate_series import CoordinateSeries
+from data.coordinate_series import CoordinateSeries
 
 
 class AngleSeries:
