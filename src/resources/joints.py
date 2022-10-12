@@ -38,8 +38,7 @@ with open(
     joints_list = json.load(json_joints)
     JOINTS = {
         "left": [
-            AngleJoints(**angle_joints)
-            for angle_joints in joints_list.get("left_side")
+            AngleJoints(**angle_joints) for angle_joints in joints_list.get("left_side")
         ],
         "right": [
             AngleJoints(**angle_joints)

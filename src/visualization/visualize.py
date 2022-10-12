@@ -54,9 +54,7 @@ def plot_3d_landmarks(
             cn2[k].append(pair[k][1])
             cn2[k].append(None)
 
-    df_plot = pd.DataFrame(plotted_landmarks).T.rename(
-        columns={0: "z", 1: "x", 2: "y"}
-    )
+    df_plot = pd.DataFrame(plotted_landmarks).T.rename(columns={0: "z", 1: "x", 2: "y"})
     df_plot["lm"] = df_plot.index.map(
         lambda s: mp.solutions.pose.PoseLandmark(s).name
     ).values
