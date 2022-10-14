@@ -1,4 +1,7 @@
 """Script for the coordinate time series"""
+import sys
+
+sys.path.append("src")
 
 from typing import Iterable, Literal, Optional, Tuple
 
@@ -11,8 +14,8 @@ from matplotlib.axes import Axes
 from mediapipe.framework.formats.landmark_pb2 import NormalizedLandmarkList
 from tslearn.preprocessing import TimeSeriesScalerMeanVariance
 
-from src.resources.smoothers import SMOOTHERS
-from src.utils.miscellanous import merge_dict
+from resources.smoothers import SMOOTHERS
+from utils.miscellanous import merge_dict
 
 
 class CoordinateSeries:
@@ -53,9 +56,7 @@ class CoordinateSeries:
             index=(
                 pd.to_timedelta(range(len(coordinates)), unit="s") / self.fps
             ).total_seconds(),
-            columns=[
-                landmark._name_ for landmark in mp.solutions.pose.PoseLandmark
-            ],
+            columns=[landmark._name_ for landmark in mp.solutions.pose.PoseLandmark],
         )
 
         return frame.T

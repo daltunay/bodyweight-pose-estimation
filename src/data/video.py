@@ -20,9 +20,7 @@ _MIN_TRACKING_CONFIDENCE = 0.5
 class Video:
     """Class for a video to process"""
 
-    def __init__(
-        self, path: Union[str, int], label: Optional[str] = None
-    ) -> None:
+    def __init__(self, path: Union[str, int], label: Optional[str] = None) -> None:
         """Initialization
 
         Args:
@@ -34,12 +32,8 @@ class Video:
         self.fps: float = None
         self.landmarks_series: Optional[List[NormalizedLandmarkList]] = None
 
-        self._coordinates: Optional[
-            CoordinateSeries
-        ] = None  # CoordinateSeries object
-        self.coordinates: pd.DataFrame = (
-            None  # corresponding time series frame
-        )
+        self._coordinates: Optional[CoordinateSeries] = None  # CoordinateSeries object
+        self.coordinates: pd.DataFrame = None  # corresponding time series frame
 
         self._angles: Optional[AngleSeries] = None  # AngleSeries object
         self.angles: pd.DataFrame = None  # corresponding time series dataframe
@@ -98,9 +92,7 @@ class Video:
 
                 # show frame and landmarks
                 if show is True:
-                    Video.show_landmarks(
-                        image=frame, landmarks=results.pose_landmarks
-                    )
+                    Video.show_landmarks(image=frame, landmarks=results.pose_landmarks)
                     Video.show_time(
                         image=frame, time=len(self.landmarks_series) / self.fps
                     )
@@ -172,7 +164,5 @@ class Video:
         self.coordinates = self._coordinates.frame
 
     def extract_angles(self, angle_list):
-        self._angles = AngleSeries(
-            coordinates=self._coordinates, angle_list=angle_list
-        )
+        self._angles = AngleSeries(coordinates=self._coordinates, angle_list=angle_list)
         self.angles = self._angles.frame

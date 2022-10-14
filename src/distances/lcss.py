@@ -9,7 +9,7 @@ import tslearn.metrics
 def lcss_dist(
     frame_1: Union[Iterable[float], pd.DataFrame],
     frame_2: Union[Iterable[float], pd.DataFrame],
-    epsilon: float,
+    epsilon: float = 1_000,
 ) -> float:
     """Function to compute the distance between two one or multi-dimensional time series
 
