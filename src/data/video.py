@@ -1,6 +1,7 @@
 """Functions related to video processing and pose estimation"""
 
-from typing import List, Literal, Optional, Union
+import sys
+from typing import Iterable, List, Literal, Optional, Union
 
 import cv2
 import mediapipe as mp
@@ -9,8 +10,12 @@ import pandas as pd
 import tqdm
 from mediapipe.framework.formats.landmark_pb2 import NormalizedLandmarkList
 
-from .angle_series import AngleSeries
-from .coordinate_series import CoordinateSeries
+sys.path.append("src")
+
+
+from data.angle_series import AngleSeries
+from data.coordinate_series import CoordinateSeries
+from resources.joints import AngleJoints
 
 # Parameters
 _MIN_DETECTION_CONFIDENCE = 0.5
@@ -20,9 +25,7 @@ _MIN_TRACKING_CONFIDENCE = 0.5
 class Video:
     """Class for a video to process"""
 
-    def __init__(
-        self, path: Union[str, int], label: Optional[str] = None
-    ) -> None:
+    def __init__(self, path: Union[str, int], label: Optional[str] = None) -> None:
         """Initialization
 
         Args:
@@ -34,12 +37,8 @@ class Video:
         self.fps: float = None
         self.landmarks_series: Optional[List[NormalizedLandmarkList]] = None
 
-        self._coordinates: Optional[
-            CoordinateSeries
-        ] = None  # CoordinateSeries object
-        self.coordinates: pd.DataFrame = (
-            None  # corresponding time series frame
-        )
+        self._coordinates: Optional[CoordinateSeries] = None  # CoordinateSeries object
+        self.coordinates: pd.DataFrame = None  # corresponding time series frame
 
         self._angles: Optional[AngleSeries] = None  # AngleSeries object
         self.angles: pd.DataFrame = None  # corresponding time series dataframe
@@ -48,12 +47,16 @@ class Video:
         self,
         model_complexity: Literal[0, 1, 2] = 1,
         show: bool = False,
+        resize: float = 1,
     ) -> None:
         """Method to extract the landmarks of each frame of the video
 
         Args:
-            * model_complexity (Literal[0, 1, 2]): Complexity of the Mediapipe pose estimation model
-            * show (bool): Whether to show the video and landmarks in an output window or not
+            * model_complexity (Literal[0, 1, 2]): Complexity of the Mediapipe pose\
+                estimation model
+
+            * show (bool): Whether to show the video and landmarks in an output window\
+                or not
 
         Returns:
             * List[NormalizedLandmarkList]: Landmarks time series
@@ -98,13 +101,14 @@ class Video:
 
                 # show frame and landmarks
                 if show is True:
-                    Video.show_landmarks(
-                        image=frame, landmarks=results.pose_landmarks
-                    )
+                    Video.show_landmarks(image=frame, landmarks=results.pose_landmarks)
                     Video.show_time(
                         image=frame, time=len(self.landmarks_series) / self.fps
                     )
-                    cv2.imshow("Mediapipe Feed", frame)
+                    cv2.imshow(
+                        "Mediapipe Feed",
+                        cv2.resize(frame, dsize=None, fx=resize, fy=resize),
+                    )
 
                     # manual exit
                     if cv2.waitKey(1) & 0xFF == ord("\x1b"):  # press Esc
@@ -132,7 +136,8 @@ class Video:
 
         Args:
             * image (np.ndarray): Image array with RGB format, shape (width, height, 3)
-            * landmarks (mp.framework.formats.landmark_pb2.NormalizedLandmarkList): Pose estimation result landmarks
+
+            * landmarks (NormalizedLandmarkList): Pose estimation result landmarks
         """
         mp.solutions.drawing_utils.draw_landmarks(
             image=image,
@@ -151,7 +156,7 @@ class Video:
         """Function to show a time value on a given input image
 
         Args:
-            * image (np.ndarray): Image array with RGB format, (width, height, 3)
+            * image (np.ndarray): Image array with RGB format, shape (width, height, 3)
             * time (float): Time in seconds
         """
         cv2.putText(
@@ -165,14 +170,19 @@ class Video:
             lineType=cv2.LINE_AA,
         )
 
-    def extract_coordinates(self):
+    def extract_coordinates(self) -> None:
+        """Method to extract the coordinates of the different joints and save\
+            the time series"""
         self._coordinates = CoordinateSeries(
             landmarks=self.landmarks_series, fps=self.fps
         )
         self.coordinates = self._coordinates.frame
 
-    def extract_angles(self, angle_list):
-        self._angles = AngleSeries(
-            coordinates=self._coordinates, angle_list=angle_list
-        )
+    def extract_angles(self, angle_list: Iterable[AngleJoints]) -> None:
+        """Function to exract the angle time series from a video, using the coordinates
+
+        Args:
+            * angle_list (Iterable[AngleJoints]): List of angles to consider
+        """
+        self._angles = AngleSeries(coordinates=self._coordinates, angle_list=angle_list)
         self.angles = self._angles.frame

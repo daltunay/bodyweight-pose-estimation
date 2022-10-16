@@ -7,6 +7,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import seaborn as sns
+from mediapipe.framework.formats.landmark_pb2 import NormalizedLandmarkList
 
 sns.set_style("whitegrid")
 
@@ -15,9 +16,18 @@ _VISIBILITY_THRESHOLD = 0.5
 
 
 def plot_3d_landmarks(
-    landmark_list: mp.framework.formats.landmark_pb2.NormalizedLandmarkList,
-    connections: List[Tuple[int, int]],
+    landmark_list: NormalizedLandmarkList,
+    connections: List[Tuple[int, int]] = mp.solutions.pose.POSE_CONNECTIONS,
 ) -> go.Figure:
+    """Function to plot landmarks in 3D
+
+    Args:
+        landmark_list (NormalizedLandmarkList): list of landmarks to plot
+        connections (List[Tuple[int, int]]): connections between landmarks
+
+    Returns:
+        go.Figure: Interactive 3D figure
+    """
     plotted_landmarks = {
         idx: (-landmark.z, landmark.x, -landmark.y)
         for idx, landmark in enumerate(landmark_list.landmark)
