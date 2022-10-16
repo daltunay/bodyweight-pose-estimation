@@ -1,41 +1,52 @@
 {
-    "left_side": [
+    "left_elbow": [
         {
             "first": "LEFT_SHOULDER",
             "mid": "LEFT_ELBOW",
             "end": "LEFT_WRIST"
-        },
+        }
+    ],
+    "left_shoulder": [
         {
             "first": "LEFT_ELBOW",
             "mid": "LEFT_SHOULDER",
             "end": "LEFT_HIP"
+        }
+    ],
+    "left_hip": [
+        {
+            "first": "LEFT_SHOULDER",
+            "mid": "LEFT_HIP",
+            "end": "LEFT_KNEE"
         },
+        {
+            "first": "NOSE",
+            "mid": "LEFT_HIP",
+            "end": "LEFT_ANKLE"
+        }
+    ],
+    "left_knee": [
+        {
+            "first": "LEFT_HIP",
+            "mid": "LEFT_KNEE",
+            "end": "LEFT_ANKLE"
+        }
+    ],
+    "nose": [
         {
             "first": "LEFT_ELBOW",
-            "mid": "LEFT_SHOULDER",
-            "end": "RIGHT_SHOULDER"
+            "mid": "NOSE",
+            "end": "RIGHT_ELBOW"
         },
         {
-            "first": "LEFT_WRIST",
-            "mid": "LEFT_SHOULDER",
-            "end": "RIGHT_SHOULDER"
-        },
-        {
-            "first": "LEFT_WRIST",
-            "mid": "LEFT_SHOULDER",
-            "end": "LEFT_HIP"
-        },
-        {
-            "first": "LEFT_WRIST",
-            "mid": "LEFT_SHOULDER",
-            "end": "NOSE"
+            "first": "LEFT_HIP",
+            "mid": "NOSE",
+            "end": "RIGHT_HIP"
         },
         {
             "first": "LEFT_SHOULDER",
-            "mid": "LEFT_EYE",
-            "end": "RIGHT_EYE"
+            "mid": "NOSE",
+            "end": "RIGHT_SHOULDER"
         }
-    ],
-    "right_side": [],
-    "symmetrical": []
+    ]
 }

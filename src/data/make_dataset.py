@@ -1,31 +1,40 @@
-# -*- coding: utf-8 -*-
-import logging
-from pathlib import Path
+"""Script to generate the dataset"""
 
-import click
-from dotenv import find_dotenv, load_dotenv
+import os
+import sys
+
+from video import Video
+
+sys.path.append("src")
+from resources.joints import JOINTS
+
+DATA_RAW_FILEPATH = "data\\raw"
+DATA_PROCESSED_FILEPATH = "data\\processed"
 
 
-@click.command()
-@click.argument("input_filepath", type=click.Path(exists=True))
-@click.argument("output_filepath", type=click.Path())
-def main(input_filepath, output_filepath):
-    """Runs data processing scripts to turn raw data from (../raw) into
-    cleaned data ready to be analyzed (saved in ../processed).
-    """
-    logger = logging.getLogger(__name__)
-    logger.info("making final data set from raw data")
+def main() -> None:
+    """Function to generate the angle time series from the given input files"""
+    for (dirpath, _, filenames) in os.walk(DATA_RAW_FILEPATH):
+        for i, video_name in enumerate(filenames):
+            label = dirpath.split("\\")[-1]
+
+            vid = Video(path=os.path.join(dirpath, video_name))
+            vid.get_landmarks(model_complexity=2, show=False)
+            vid.extract_coordinates()
+            vid.extract_angles(angle_list=JOINTS)
+
+            vid._angles.smooth(inplace=True)
+            # vid._angles.scale(inplace=True)
+
+            out = vid._angles.frame
+            out.to_csv(
+                os.path.join(
+                    DATA_PROCESSED_FILEPATH,
+                    label,
+                    f"{video_name.replace('.mp4', '.csv')}",
+                )
+            )
 
 
 if __name__ == "__main__":
-    log_fmt = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    logging.basicConfig(level=logging.INFO, format=log_fmt)
-
-    # not used in this stub but often useful for finding various files
-    project_dir = Path(__file__).resolve().parents[2]
-
-    # find .env automagically by walking up directories until it's found, then
-    # load up the .env entries as environment variables
-    load_dotenv(find_dotenv())
-
     main()
