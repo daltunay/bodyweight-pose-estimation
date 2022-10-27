@@ -87,3 +87,6 @@ target/
 
 # Videos
 *.mp4
+
+# csv
+*.csv
