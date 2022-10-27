@@ -1,3 +1,4 @@
+"""Main script to try the classifier on a live input video"""
 import pickle
 import sys
 
