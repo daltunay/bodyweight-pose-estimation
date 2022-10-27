@@ -17,7 +17,7 @@ def main() -> None:
     for (dirpath, _, filenames) in os.walk(DATA_RAW_FILEPATH):
         for i, video_name in enumerate(filenames):
             label = dirpath.split("\\")[-1]
-            if video_name == ".gitkeep":
+            if ".mp4" not in video_name:
                 continue
             vid = Video(path=os.path.join(dirpath, video_name))
             vid.get_landmarks(model_complexity=2, show=False)
