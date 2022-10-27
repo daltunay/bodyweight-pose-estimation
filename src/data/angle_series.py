@@ -7,12 +7,11 @@ import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
 from matplotlib.axes import Axes
-from resources.joints import AngleJoints
-from resources.smoothers import SMOOTHERS
 from tslearn.preprocessing import TimeSeriesScalerMeanVariance
+from tsmoothie import LowessSmoother
 
+from resources.joints import AngleJoints
 from src.resources.joints import AngleJoints
-from src.resources.smoothers import SMOOTHERS
 from src.utils.trigonometry import calculate_angle
 
 from .coordinate_series import CoordinateSeries

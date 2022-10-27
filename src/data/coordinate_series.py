@@ -9,13 +9,10 @@ import seaborn as sns
 from matplotlib import pyplot as plt
 from matplotlib.axes import Axes
 from mediapipe.framework.formats.landmark_pb2 import NormalizedLandmarkList
-from resources.smoothers import SMOOTHERS
-from utils.miscellanous import merge_dict
 from tslearn.preprocessing import TimeSeriesScalerMeanVariance
 from tsmoothie.smoother import LowessSmoother
 
-from src.resources.smoothers import SMOOTHERS
-from src.utils.miscellanous import merge_dict
+from utils.miscellanous import merge_dict
 
 
 class CoordinateSeries:
@@ -34,7 +31,9 @@ class CoordinateSeries:
         self.landmarks: NormalizedLandmarkList = landmarks
         self.fps: float = fps
         self.frame: pd.DataFrame = self.extract_coordinates()
-        self.frame.loc["MID_ANKLE"] = self.mean_coords(row_1="LEFT_ANKLE", row_2="RIGHT_ANKLE")
+        self.frame.loc["MID_ANKLE"] = self.mean_coords(
+            row_1="LEFT_ANKLE", row_2="RIGHT_ANKLE"
+        )
 
     def extract_coordinates(self) -> pd.DataFrame:
         """Method to extract the (x, y, z) coordinates of each joint, from\

@@ -80,7 +80,7 @@ class kNNClassifier:
             labels = [row[1] for row in neighbors]
             counts = dict(Counter(labels))
             predictions.append({k: v / self.k for k, v in counts.items()})
-        return predictions
+        return predictions[0] if len(predictions) == 1 else predictions
 
     def predict(self, X: Union[pd.DataFrame, Iterable[pd.DataFrame]]) -> List[str]:
         """Method to predict the label of each input dataframe
@@ -93,7 +93,8 @@ class kNNClassifier:
             * List[str]: List of the labels for each input frame
         """
         predictions = self._predict(X)
-        return [max(pred, key=pred.get) for pred in predictions]
+        labels = [max(pred, key=pred.get) for pred in predictions]
+        return labels[0] if len(labels) == 1 else labels
 
     def predict_proba(
         self, X: Union[pd.DataFrame, Iterable[pd.DataFrame]]
