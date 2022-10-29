@@ -7,7 +7,7 @@ from src.resources.joints import JOINTS
 
 sys.path.append("src/models")
 
-MODEL_COMPLEXITY = 1  # 0, 1 or 2
+MODEL_COMPLEXITY = 2  # 0, 1 or 2
 
 
 def main() -> None:

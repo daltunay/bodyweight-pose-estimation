@@ -20,7 +20,7 @@ def main() -> None:
             if ".mp4" not in video_name:
                 continue
             vid = Video(path=os.path.join(dirpath, video_name))
-            vid.get_landmarks(model_complexity=2, show=False)
+            vid.get_landmarks(model_complexity=2, show=False, resize=0.5)
             vid.extract_coordinates()
             vid.extract_angles(angle_list=JOINTS)
 
